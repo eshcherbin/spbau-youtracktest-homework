@@ -1,4 +1,36 @@
 package ru.spbau.eshcherbin.testing.youtracktest.elements.forms;
 
-public class CreateIssueForm {
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.spbau.eshcherbin.testing.youtracktest.data.Issue;
+
+public class CreateIssueForm extends BaseForm {
+  private static final String SUMMARY_TEXTAREA_ID = "id_l.I.ni.ei.eit.summary";
+  private static final String DESCRIPTION_TEXTAREA_ID = "id_l.I.ni.ei.eit.description";
+  private static final String SUBMIT_BUTTON_SELECTOR = "button[cn='l.I.ni.ei.submitButton']";
+
+  private WebElement summaryTextarea;
+  private WebElement desctiptionTextarea;
+  private WebElement submitButton;
+
+  public CreateIssueForm(WebDriver driver, WebDriverWait wait) {
+    super(driver, wait);
+  }
+
+  public void submitIssue(Issue issue) {
+    summaryTextarea.sendKeys(issue.getSummary());
+    desctiptionTextarea.sendKeys(issue.getDescription());
+    submitButton.click();
+  }
+
+  @Override
+  public void locate() {
+    summaryTextarea = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(SUMMARY_TEXTAREA_ID)));
+    desctiptionTextarea = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(DESCRIPTION_TEXTAREA_ID)));
+    submitButton = wait.until(ExpectedConditions.visibilityOfElementLocated(
+        By.cssSelector(SUBMIT_BUTTON_SELECTOR)));
+  }
 }

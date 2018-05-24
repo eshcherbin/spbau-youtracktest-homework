@@ -4,8 +4,10 @@ import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.spbau.eshcherbin.testing.youtracktest.data.Issue;
 import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.CreateProjectPage;
 import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.EditProjectPage;
+import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.IssuesPage;
 import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.LoginPage;
 
 public class YouTrackIssuesTest {
@@ -18,6 +20,8 @@ public class YouTrackIssuesTest {
 
   private static WebDriver driver;
   private static WebDriverWait wait;
+
+  private IssuesPage issuesPage;
 
   @BeforeClass
   public static void configureDriverAndYouTrack() throws Exception {
@@ -38,8 +42,16 @@ public class YouTrackIssuesTest {
     createProjectPage.createProject(TEST_PROJECT_NAME, TEST_PROJECT_SHORT_NAME, ROOT_LOGIN);
   }
 
+  @Before
+  public void setUp() throws Exception {
+    issuesPage = new IssuesPage(driver, wait);
+    issuesPage.get();
+  }
+
   @Test
   public void test() throws Exception {
+    Issue issue = new Issue("test", "test");
+    issuesPage.createIssue(issue);
   }
 
   @AfterClass
