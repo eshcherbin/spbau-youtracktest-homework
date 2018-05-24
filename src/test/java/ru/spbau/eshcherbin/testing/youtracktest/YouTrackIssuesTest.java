@@ -1,6 +1,5 @@
 package ru.spbau.eshcherbin.testing.youtracktest;
 
-import static java.util.Collections.singletonList;
 import static org.junit.Assert.*;
 
 import com.google.common.base.Strings;
@@ -18,6 +17,7 @@ import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.EditProjectPage;
 import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.IssuesPage;
 import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.LoginPage;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -62,11 +62,16 @@ public class YouTrackIssuesTest {
   }
 
   @Test
+  public void testNoIssues() {
+    assertEquals(Collections.emptyList(), issuesPage.getIssues());
+  }
+
+  @Test
   public void testOneIssue() {
     Issue issue = new Issue("test", "test");
     issuesPage.createIssue(issue);
 
-    assertEquals(singletonList(issue), issuesPage.getIssues());
+    assertEquals(Collections.singletonList(issue), issuesPage.getIssues());
   }
 
   @Test
@@ -86,7 +91,7 @@ public class YouTrackIssuesTest {
     Issue issue = new Issue("test", "");
     issuesPage.createIssue(issue);
 
-    assertEquals(singletonList(issue), issuesPage.getIssues());
+    assertEquals(Collections.singletonList(issue), issuesPage.getIssues());
   }
 
   @Test
@@ -95,7 +100,7 @@ public class YouTrackIssuesTest {
     System.out.println(issue.getSummary());
     issuesPage.createIssue(issue);
 
-    assertEquals(singletonList(issue.getShortenedVersion()), issuesPage.getIssues());
+    assertEquals(Collections.singletonList(issue.getShortenedVersion()), issuesPage.getIssues());
   }
 
   @Test
@@ -103,7 +108,7 @@ public class YouTrackIssuesTest {
     Issue issue = new Issue("test", lorem.getWords(50));
     issuesPage.createIssue(issue);
 
-    assertEquals(singletonList(issue), issuesPage.getIssues());
+    assertEquals(Collections.singletonList(issue), issuesPage.getIssues());
   }
 
   @Test
@@ -111,7 +116,7 @@ public class YouTrackIssuesTest {
     Issue issue = new Issue(lorem.getWords(50), lorem.getWords(50));
     issuesPage.createIssue(issue);
 
-    assertEquals(singletonList(issue.getShortenedVersion()), issuesPage.getIssues());
+    assertEquals(Collections.singletonList(issue.getShortenedVersion()), issuesPage.getIssues());
   }
 
   @Test
@@ -119,7 +124,7 @@ public class YouTrackIssuesTest {
     Issue issue = new Issue("test" + Strings.repeat(" ", 200) + "test", "test");
     issuesPage.createIssue(issue);
 
-    assertEquals(singletonList(issue.getShortenedVersion()), issuesPage.getIssues());
+    assertEquals(Collections.singletonList(issue.getShortenedVersion()), issuesPage.getIssues());
   }
 
   @Test
@@ -127,7 +132,7 @@ public class YouTrackIssuesTest {
     Issue issue = new Issue("test", "test" + Strings.repeat(" ", 200) + "test");
     issuesPage.createIssue(issue);
 
-    assertEquals(singletonList(issue), issuesPage.getIssues());
+    assertEquals(Collections.singletonList(issue), issuesPage.getIssues());
   }
 
   @Test
@@ -189,6 +194,22 @@ public class YouTrackIssuesTest {
     }
 
     assertEquals(expectedIssues, issuesPage.getIssues());
+  }
+
+  @Test
+  public void testNoSummary() {
+    Issue issue = new Issue("", "test");
+    issuesPage.createIssue(issue, true);
+
+    assertEquals(Collections.emptyList(), issuesPage.getIssues());
+  }
+
+  @Test
+  public void testNoSummaryAndDescription() {
+    Issue issue = new Issue("", "");
+    issuesPage.createIssue(issue, true);
+
+    assertEquals(Collections.emptyList(), issuesPage.getIssues());
   }
 
   @After

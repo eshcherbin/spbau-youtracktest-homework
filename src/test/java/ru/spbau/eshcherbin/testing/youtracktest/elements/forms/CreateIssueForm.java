@@ -21,6 +21,8 @@ public class CreateIssueForm extends BaseForm {
   }
 
   public void submitIssue(Issue issue) {
+    summaryTextarea.clear();
+    descriptionTextarea.clear();
     summaryTextarea.sendKeys(issue.getSummary());
     descriptionTextarea.sendKeys(issue.getDescription());
     submitButton.click();
