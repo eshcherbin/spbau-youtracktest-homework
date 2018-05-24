@@ -13,7 +13,7 @@ public class CreateIssueForm extends BaseForm {
   private static final String SUBMIT_BUTTON_SELECTOR = "button[cn='l.I.ni.ei.submitButton']";
 
   private WebElement summaryTextarea;
-  private WebElement desctiptionTextarea;
+  private WebElement descriptionTextarea;
   private WebElement submitButton;
 
   public CreateIssueForm(WebDriver driver, WebDriverWait wait) {
@@ -22,14 +22,14 @@ public class CreateIssueForm extends BaseForm {
 
   public void submitIssue(Issue issue) {
     summaryTextarea.sendKeys(issue.getSummary());
-    desctiptionTextarea.sendKeys(issue.getDescription());
+    descriptionTextarea.sendKeys(issue.getDescription());
     submitButton.click();
   }
 
   @Override
   public void locate() {
     summaryTextarea = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(SUMMARY_TEXTAREA_ID)));
-    desctiptionTextarea = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(DESCRIPTION_TEXTAREA_ID)));
+    descriptionTextarea = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(DESCRIPTION_TEXTAREA_ID)));
     submitButton = wait.until(ExpectedConditions.visibilityOfElementLocated(
         By.cssSelector(SUBMIT_BUTTON_SELECTOR)));
   }
