@@ -1,7 +1,6 @@
 package ru.spbau.eshcherbin.testing.youtracktest;
 
-import static org.junit.Assert.*;
-
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -17,10 +16,13 @@ import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.EditProjectPage;
 import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.IssuesPage;
 import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.LoginPage;
 
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static org.junit.Assert.assertEquals;
 
 public class YouTrackIssuesTest {
   private static final int WAIT_TIMEOUT_SECONDS = 3;
@@ -38,9 +40,13 @@ public class YouTrackIssuesTest {
 
   @BeforeClass
   public static void configureDriverAndLogIn() {
+    URL driverUri = MoreObjects.firstNonNull(
+        Thread.currentThread().getContextClassLoader().getResource("geckodriver"),
+        Thread.currentThread().getContextClassLoader().getResource("geckodriver.exe")
+    );
     System.setProperty(
         "webdriver.gecko.driver",
-        Thread.currentThread().getContextClassLoader().getResource("geckodriver").getPath()
+        driverUri.getPath()
     );
 
     driver = new FirefoxDriver();
