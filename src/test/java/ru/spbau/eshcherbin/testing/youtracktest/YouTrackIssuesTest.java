@@ -1,5 +1,7 @@
 package ru.spbau.eshcherbin.testing.youtracktest;
 
+import static org.junit.Assert.*;
+
 import org.junit.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -9,6 +11,8 @@ import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.CreateProjectPage
 import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.EditProjectPage;
 import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.IssuesPage;
 import ru.spbau.eshcherbin.testing.youtracktest.elements.pages.LoginPage;
+
+import java.util.List;
 
 public class YouTrackIssuesTest {
   private static final int WAIT_TIMEOUT_SECONDS = 3;
@@ -52,6 +56,9 @@ public class YouTrackIssuesTest {
   public void test() throws Exception {
     Issue issue = new Issue("test", "test");
     issuesPage.createIssue(issue);
+
+    List<Issue> issues = issuesPage.getIssues();
+    assertTrue(issues.contains(issue));
   }
 
   @AfterClass
