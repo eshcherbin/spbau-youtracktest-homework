@@ -25,7 +25,7 @@ public class CreateProjectPage extends BasePage {
   public void createProject(String projectName, String shortName, String projectLead) {
     projectNameInput.sendKeys(projectName);
     shortNameInput.sendKeys(shortName);
-    projectLeadInput.click();
+    projectLeadInput.findElement(By.className("arrow")).click();
     wait.until(ExpectedConditions.visibilityOfElementLocated(
         By.cssSelector("li[title='" + projectLead + " (" + projectLead + ")']")))
         .click();

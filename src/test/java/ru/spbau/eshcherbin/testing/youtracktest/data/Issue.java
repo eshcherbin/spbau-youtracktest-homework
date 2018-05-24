@@ -1,6 +1,12 @@
 package ru.spbau.eshcherbin.testing.youtracktest.data;
 
+import com.google.common.base.MoreObjects;
+
+import java.util.Objects;
+
 public class Issue {
+  private static final int SHORT_SUMMARY_LENGTH_LIMIT = 200;
+
   private String summary;
   private String description;
 
@@ -17,21 +23,36 @@ public class Issue {
     return description;
   }
 
+  public String getShortenedSummary() {
+    return summary.length() <= SHORT_SUMMARY_LENGTH_LIMIT ?
+        summary :
+        summary.substring(0, SHORT_SUMMARY_LENGTH_LIMIT).trim();
+  }
+
+  public Issue getShortenedVersion() {
+    return new Issue(getShortenedSummary(), getDescription());
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this)
+        .add("summary", summary)
+        .add("description", description)
+        .toString();
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     Issue issue = (Issue) o;
-
-    if (getSummary() != null ? !getSummary().equals(issue.getSummary()) : issue.getSummary() != null) return false;
-    return getDescription() != null ? getDescription().equals(issue.getDescription()) : issue.getDescription() == null;
+    return Objects.equals(getSummary(), issue.getSummary()) &&
+        Objects.equals(getDescription(), issue.getDescription());
   }
 
   @Override
   public int hashCode() {
-    int result = getSummary() != null ? getSummary().hashCode() : 0;
-    result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
-    return result;
+
+    return Objects.hash(getSummary(), getDescription());
   }
 }

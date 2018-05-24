@@ -33,7 +33,7 @@ public class IssuesPage extends BasePage {
       container.findElement(By.cssSelector(ISSUE_EXPAND_LINK_SELECTOR)).click(); // expand issue to get description
       String summary = container.findElement(By.className(ISSUE_SUMMARY_CLASSNAME)).getText();
       String description = container.findElements(By.className(ISSUE_DESCRIPTION_CLASSNAME)).stream()
-          .map(WebElement::getText).findAny().orElse("");
+          .map(WebElement::getText).findFirst().orElse("");
       return new Issue(summary, description);
     }).collect(Collectors.toList());
   }
